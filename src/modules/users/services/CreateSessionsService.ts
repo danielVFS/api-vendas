@@ -7,15 +7,19 @@ import { UserRepository } from '../typeorm/repositories/UsersRepository';
 import User from '../typeorm/entities/User';
 
 import AppError from '@shared/errors/AppError';
-import { Console } from 'console';
 
 interface IRequest {
   email: string;
   password: string;
 }
 
+interface IResponse {
+  user: User;
+  token: string;
+}
+
 class CreateSessionService {
-  public async execute({ email, password }: IRequest): Promise<User> {
+  public async execute({ email, password }: IRequest): Promise<IResponse> {
     const userRepository = getCustomRepository(UserRepository);
 
     const user = await userRepository.findByEmail(email);
@@ -30,8 +34,15 @@ class CreateSessionService {
       throw new AppError('Password incorrect', 401);
     }
 
-    console.log(process.env.SECRET);
-    return user;
+    const token = sign({}, '35a10dfa8d4ce345c8dad22fb2568b7e', {
+      subject: user.id,
+      expiresIn: '1d',
+    });
+
+    return {
+      user,
+      token,
+    };
   }
 }
 
