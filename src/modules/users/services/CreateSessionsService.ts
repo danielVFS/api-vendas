@@ -34,9 +34,9 @@ class CreateSessionService {
       throw new AppError('Password incorrect', 401);
     }
 
-    const token = sign({}, '35a10dfa8d4ce345c8dad22fb2568b7e', {
+    const token = sign({}, process.env.SECRET_KEY ?? '', {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn: process.env.EXPIRES_IN,
     });
 
     return {
