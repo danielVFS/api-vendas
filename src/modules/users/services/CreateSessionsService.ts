@@ -6,6 +6,8 @@ import { UserRepository } from '../typeorm/repositories/UsersRepository';
 
 import User from '../typeorm/entities/User';
 
+import authConfig from '@config/auth';
+
 import AppError from '@shared/errors/AppError';
 
 interface IRequest {
@@ -34,9 +36,9 @@ class CreateSessionService {
       throw new AppError('Password incorrect', 401);
     }
 
-    const token = sign({}, process.env.SECRET_KEY ?? '', {
+    const token = sign({}, authConfig.jwt.secret, {
       subject: user.id,
-      expiresIn: process.env.EXPIRES_IN,
+      expiresIn: authConfig.jwt.expiresIn,
     });
 
     return {
