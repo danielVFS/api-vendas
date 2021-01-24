@@ -3,11 +3,13 @@ import { celebrate, Joi, Segments } from 'celebrate';
 
 import UsersController from '../controllers/UsersController';
 
+import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
+
 const userRoutes = Router();
 
 const usersController = new UsersController();
 
-userRoutes.get('/', usersController.index);
+userRoutes.get('/', isAuthenticated, usersController.index);
 userRoutes.post(
   '/',
   celebrate({
