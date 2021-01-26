@@ -1,7 +1,5 @@
 import { getCustomRepository } from 'typeorm';
 
-import UserToken from '../typeorm/entities/UserToken';
-
 import { UserRepository } from '../typeorm/repositories/UsersRepository';
 import { UserTokenRepository } from '../typeorm/repositories/UserTokensRepository';
 
