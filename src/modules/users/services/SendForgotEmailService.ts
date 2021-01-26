@@ -14,7 +14,7 @@ interface IRequest {
 class SendForgotEmailService {
   public async execute({ email }: IRequest): Promise<void> {
     const usersRepository = getCustomRepository(UserRepository);
-    const userTokenSRepository = getCustomRepository(UserTokenRepository);
+    const userTokensRepository = getCustomRepository(UserTokenRepository);
 
     const user = await usersRepository.findByEmail(email);
 
@@ -22,7 +22,7 @@ class SendForgotEmailService {
       throw new AppError('User does not exists');
     }
 
-    const token = await userTokenSRepository.generate(user.id);
+    const token = await userTokensRepository.generate(user.id);
 
     console.log(token);
   }
