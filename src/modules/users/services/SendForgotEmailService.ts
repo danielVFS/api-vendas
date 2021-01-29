@@ -1,4 +1,5 @@
 import { getCustomRepository } from 'typeorm';
+import path from 'path';
 
 import { UserRepository } from '../typeorm/repositories/UsersRepository';
 import { UserTokenRepository } from '../typeorm/repositories/UserTokensRepository';
@@ -24,7 +25,12 @@ class SendForgotEmailService {
 
     const { token } = await userTokensRepository.generate(user.id);
 
-    console.log(token);
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'forgot_password.hbs',
+    );
 
     await EtherealMail.sendMail({
       to: {
@@ -33,10 +39,10 @@ class SendForgotEmailService {
       },
       subject: '[API VENDAS] Recuperação de senha',
       templateData: {
-        template: `Olá {{name}}: Solicitiação de redefinição de senha recebida {{token}}`,
+        file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          token,
+          link: `http://localhost:3000/reset_password?token=${token}`,
         },
       },
     });
