@@ -18,7 +18,7 @@ class Order {
 
   @ManyToOne(() => Costumer)
   @JoinColumn({ name: 'costumer_id' })
-  costumer = Costumer;
+  costumer: Costumer;
 
   @OneToMany(() => OrdersProducts, order_products => order_products.order, {
     cascade: true,
