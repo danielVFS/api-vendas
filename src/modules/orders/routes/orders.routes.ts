@@ -25,7 +25,7 @@ ordersRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      customer_id: Joi.string().uuid().required(),
+      costumer_id: Joi.string().uuid().required(),
       products: Joi.required(),
     },
   }),
