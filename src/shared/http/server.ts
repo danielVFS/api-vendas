@@ -3,6 +3,8 @@ import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
+import { pagination } from 'typeorm-pagination';
+
 import { errors } from 'celebrate';
 
 import AppError from '@shared/errors/AppError';
@@ -14,6 +16,8 @@ import routes from './routes';
 import '@shared/typeorm';
 
 const app = express();
+
+app.use(pagination);
 
 app.use(cors());
 app.use(express.json());
