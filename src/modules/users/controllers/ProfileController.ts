@@ -28,6 +28,6 @@ export default class ProfileController {
       old_password,
     });
 
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 }
